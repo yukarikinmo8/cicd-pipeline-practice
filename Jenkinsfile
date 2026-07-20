@@ -42,7 +42,16 @@ pipeline {
                             rsync -az --delete -e "ssh ${SSH_OPTS}" --rsync-path="sudo rsync" \
                                 --exclude '.git' --exclude 'Jenkinsfile' \
                                 "${APP_SRC}" "${HOST}:${DOCROOT}/"
-                            ssh ${SSH_OPTS} "${HOST}" "sudo systemctl reload apache2"
+                           ssh ${SSH_OPTS} "${HOST}" '
+if systemctl is-active --quiet apache2; then
+    sudo systemctl reload apache2
+elif systemctl is-active --quiet nginx; then
+    sudo systemctl reload nginx
+else
+    echo "No supported web server running."
+    exit 1
+fi
+'
                             echo "=== ${HOST} updated ==="
                         done
                     '''
