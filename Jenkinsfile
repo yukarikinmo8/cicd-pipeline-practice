@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         // ---- EDIT THESE ----
-        SERVERS = 'ubuntu@100.48.227.238 ubuntu@184.73.68.201'  // your two web servers
+        SERVERS = 'ubuntu@10.0.136.3 ubuntu@10.0.154.143'  // your two web servers
         DOCROOT = '/var/www/html'                             // Apache default doc root
         APP_SRC = './'                                        // repo root; 'dist/' if you build
         // --------------------
